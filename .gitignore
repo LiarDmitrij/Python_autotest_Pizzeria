@@ -1,0 +1,20 @@
+# Created by pytest automatically.
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Pytest
+.pytest_cache/
+junit.xml
+
+# Allure
+allure_results/
+allure-report/
+
+# Логи
+log.txt
+*.log
+
+# VS Code
+.vscode/

@@ -6,3 +6,9 @@ named and filled with lorem ipsum.
 You can look around to get an idea how to structure your project and, when done, you can safely delete this project.
 
 [Learn more about creating GitLab projects.](https://docs.gitlab.com/ee/gitlab-basics/create-project.html)
+
+conda env create -f environment.yml     - установить окрыжение из файла
+conda activate playwright_env           - активировать окружение
+ctrl+_shift+p Python select interpreter - выбрать окружение для vscode, создаётся файл настроек settings.json
+ctrl+_shift+p developer: reload window  - обновить страницу
+файлы тестирования и функции тестирования должны начинаться на test

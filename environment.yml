@@ -1,0 +1,9 @@
+name: playwright_env
+channels:
+  - conda-forge
+dependencies:
+  - pip:
+    - pytest
+    - pytest-playwright
+    - allure-pytest
+    - flake8
