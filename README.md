@@ -14,3 +14,4 @@ ctrl+_shift+p developer: reload window  - обновить страницу
 классы не нужны при playwright
 файлы тестирования и функции тестирования должны начинаться на test
 название класса при selenium начинается с Test
+setTimeout(() => { debugger }, 3000)    - остановит выполнение в devtools console
