@@ -199,9 +199,7 @@ class TestMainPage:
             cart_link.click()
 
         with allure.step("Проверить, что в корзине одна позиция"):
-            cart_items = WebDriverWait(selenium, 10).until(
-                EC.visibility_of_all_elements_located(CART_ITEM)
-            )
+            cart_items = wait_all_visible(selenium, CART_ITEM)
             assert len(cart_items) == 1, \
                 f"В корзине {len(cart_items)} позиций, ожидалась 1"
 
