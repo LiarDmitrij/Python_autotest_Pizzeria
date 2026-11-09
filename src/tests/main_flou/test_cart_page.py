@@ -5,8 +5,8 @@ from selenium.webdriver.support.ui import Select, WebDriverWait
 from src.utils.waits import (
     wait_all_visible,
     wait_clickable,
+    wait_invisible,
     wait_visible,
-    wait_invisible
 )
 
 MAIN_URL = 'https://pizzeria.skillbox.cc/'
