@@ -27,3 +27,9 @@ def wait_invisible(driver, locator, timeout=10):
     WebDriverWait(driver, 10).until(
         EC.invisibility_of_element_located(locator)
     )
+
+def wait_present(driver, locator, timeout=10):
+    """Ждёт наличия элемента в DOM (без требования видимости)."""
+    return WebDriverWait(driver, timeout).until(
+        EC.presence_of_element_located(locator)
+    )
