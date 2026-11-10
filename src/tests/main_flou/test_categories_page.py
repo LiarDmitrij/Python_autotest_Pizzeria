@@ -11,11 +11,12 @@ class TestCategoriesPage:
 
     @allure.story("Категории товаров")
     @allure.title("TC-13: Фильтрация десертов по бюджету до 135 руб.")
-    def test_filter_by_price(self, products_filtered):
+    def test_filter_by_price(self, categories_page):
+        categories_page.open_desserts_filtered(135)
+
         with allure.step("Проверить, что все десерты не дороже 135 руб."):
-            for price in products_filtered.get_prices():
-                assert price <= 135, \
-                    f"Товар стоит {price} руб., дороже 135"
+            for price in categories_page.get_prices():
+                assert price <= 135
 
     @allure.story("Категории товаров")
     @allure.title("TC-14: Добавление десерта в корзину")

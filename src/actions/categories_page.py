@@ -12,13 +12,10 @@ ADD_TO_CART_BUTTON = (By.CSS_SELECTOR, '.add_to_cart_button')
 ADDED_TO_CART = (By.CSS_SELECTOR, 'a.added_to_cart')
 
 PRICE_SLIDER_MAX_INPUT = (By.CSS_SELECTOR, 'input#max_price')
-PRICE_APPLY_BUTTON = (
-    By.CSS_SELECTOR,
-    '.price_slider_wrapper button[type="submit"]',
-)
+PRICE_APPLY_BUTTON = (By.CSS_SELECTOR, '.price_slider_wrapper button[type="submit"]')
 
 
-class ProductsPage(BasePage):
+class CategoriesPage(BasePage):
     TITLE = (By.CSS_SELECTOR, 'h1.product_title')
 
     @allure.step("Получить название пиццы")
@@ -75,4 +72,11 @@ class ProductsPage(BasePage):
         first_product = self.find(PRODUCT_FIRST)
         first_product.find_element(*ADD_TO_CART_BUTTON).click()
         self.find_all(ADDED_TO_CART)
+        return self
+
+    @allure.step("Открыть «Десерты» с фильтром до {max_price} руб.")
+    def open_desserts_filtered(self, max_price=135):
+        self.open('https://pizzeria.skillbox.cc/product-category/menu/deserts/')
+        self.find_all(PRODUCT)
+        self.filter_by_max_price(max_price)
         return self
