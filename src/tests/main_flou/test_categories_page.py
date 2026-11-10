@@ -9,7 +9,7 @@ from src.utils.text import clean
 @allure.feature("Основной флоу клиента")
 class TestCategoriesPage:
 
-    @allure.story("Меню")
+    @allure.story("Категории товаров")
     @allure.title("TC-13: Фильтрация десертов по бюджету до 135 руб.")
     def test_filter_by_price(self, products_filtered):
         with allure.step("Проверить, что все десерты не дороже 135 руб."):
@@ -17,7 +17,7 @@ class TestCategoriesPage:
                 assert price <= 135, \
                     f"Товар стоит {price} руб., дороже 135"
 
-    @allure.story("Меню")
+    @allure.story("Категории товаров")
     @allure.title("TC-14: Добавление десерта в корзину")
     def test_add_dessert_to_cart(self, products_filtered, selenium):
         with allure.step("Запомнить название первого десерта"):
@@ -44,17 +44,13 @@ class TestCategoriesPage:
         cart_page = CartPage(selenium)
         checkout_page = CheckoutPage(selenium)
         
-        with allure.step("Добавить первый десерт в корзину"):
-            products_filtered.add_first_to_cart()
+        products_filtered.add_first_to_cart()
 
         with allure.step("Перейти в корзину"):
             cart_page.open_by_header_link()
 
-        with allure.step("Нажать кнопку «Перейти к оплате»"):
-            checkout_page.click_checkout()
-
-        with allure.step("Дождаться запроса авторизации"):
-            login_toggle = checkout_page.wait_login_request()
+        checkout_page.click_checkout()
+        login_toggle = checkout_page.wait_login_request()
 
         with allure.step("Проверить, что отображается запрос авторизации"):
             assert login_toggle.is_displayed(), \
@@ -62,5 +58,6 @@ class TestCategoriesPage:
 
         with allure.step("Проверить текст сообщения о необходимости входа"):
             message = checkout_page.get_login_message()
+        with allure.step("Сравнить"):
             assert "Авторизуйтесь" in message, \
                 f"Сообщение «{message}» не содержит «Авторизуйтесь»"

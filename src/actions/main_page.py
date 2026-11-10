@@ -58,7 +58,6 @@ class MainPage(BasePage):
     def get_pizza_name_in_card(self):
         return self.find(PIZZA_NAME_IN_CARD).get_attribute("title").strip()
 
-    @allure.step("Навести мышь на первую пиццу")
     def hover_first_pizza(self):
         ActionChains(self.driver).move_to_element(
             self.find(PIZZA_IMAGE)
@@ -75,7 +74,6 @@ class MainPage(BasePage):
         self.click(ADD_TO_CART_BUTTON)
         return self
 
-    @allure.step("Навести мышь на вторую пиццу")
     def hover_second_pizza(self):
         ActionChains(self.driver).move_to_element(
             self.find(PIZZA_IMAGE_2)
@@ -101,13 +99,11 @@ class MainPage(BasePage):
             for slide in self.driver.find_elements(*ACTIVE_SLIDES)
         )
 
-    @allure.step("Навести мышь на первый активный слайд")
     def hover_first_active(self):
         active = self.driver.find_elements(*ACTIVE_SLIDES)
         ActionChains(self.driver).move_to_element(active[0]).perform()
         return self
 
-    @allure.step("Навести мышь на последний активный слайд")
     def hover_last_active(self):
         active = self.driver.find_elements(*ACTIVE_SLIDES)
         ActionChains(self.driver).move_to_element(active[-1]).perform()

@@ -37,11 +37,13 @@ class TestProductPage:
             cart_page.open_by_header_link()
 
         with allure.step("Проверить, что в корзине одна позиция"):
-            names = cart_page.get_item_names()
-            assert len(names) == 1, \
-                f"В корзине {len(names)} позиций, ожидалась 1"
+            item_count = cart_page.get_items_count()
+        with allure.step("Сравнить"):
+            assert item_count == 1, \
+                f"В корзине {item_count} позиций, ожидалась 1"
 
         with allure.step("Проверить, что в корзине указан «Сырный борт»"):
             option = cart_page.get_item_option()
+        with allure.step("Сравнить"):
             assert option == "Сырный борт", \
                 f"В корзине опция «{option}», ожидалась «Сырный борт»"

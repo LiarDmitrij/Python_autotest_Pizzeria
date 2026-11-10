@@ -18,17 +18,13 @@ class TestCartPage:
         with allure.step("Запомнить сумму заказа до изменения количества"):
             total_before = cart_page.get_total()
 
-        with allure.step("Увеличить количество пиццы до 2"):
-            cart_page.set_quantity(2)
-
-        with allure.step("Нажать кнопку «Обновить корзину»"):
-            cart_page.click_update()
-
-        with allure.step("Дождаться пересчёта"):
-            total_after = cart_page.wait_total_changed(total_before)
+        cart_page.set_quantity(2)
+        cart_page.click_update()
+        total_after = cart_page.wait_total_changed(total_before)
 
         with allure.step("Проверить, что количество стало 2"):
             quantity_after = cart_page.get_quantity()
+        with allure.step("Сравнить"):
             assert quantity_after == "2", \
                 f"Количество {quantity_after}, ожидалось 2"
 
@@ -46,11 +42,8 @@ class TestCartPage:
         with allure.step("Перейти в корзину"):
             cart_page.open_by_header_link()
 
-        with allure.step("Удалить позицию из корзины"):
-            cart_page.remove_item()
-
-        with allure.step("Дождаться, что позиция удалена из корзины"):
-            cart_page.wait_item_removed()
+        cart_page.remove_item()
+        cart_page.wait_item_removed()
 
         with allure.step("Проверить, что в корзине нет позиций"):
             count = cart_page.get_items_count()

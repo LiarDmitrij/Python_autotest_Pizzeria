@@ -6,9 +6,7 @@ import allure
 class TestMainPage:
 
     @allure.story("Главная страница")
-    @allure.title(
-        "TC-01: Отображение слайдера с пиццами на главной странице"
-    )
+    @allure.title("TC-01: Отображение слайдера с пиццами на главной странице")
     def test_slider_pizza_displayed_on_main_page(self, main_page):
         main_page.open_page()
         main_page.wait_slider()
@@ -19,25 +17,18 @@ class TestMainPage:
                 "У изображения пиццы отсутствует атрибут src"
 
     @allure.story("Главная страница")
-    @allure.title(
-        "TC-02: Появление кнопки «В корзину» при наведении на пиццу"
-    )
+    @allure.title("TC-02: Появление кнопки «В корзину» при наведении на пиццу")
     def test_add_to_cart_button_appears_on_hover(self, main_page):
         main_page.open_page()
         main_page.wait_slider()
         main_page.hover_first_pizza()
 
-        with allure.step("Проверить, что кнопка «В корзину» отображается"):
-            assert main_page.is_add_to_cart_visible(), \
-                "Кнопка «В корзину» не отображается при наведении"
+        assert main_page.is_add_to_cart_visible(), \
+            "Кнопка «В корзину» не отображается при наведении"
 
     @allure.story("Главная страница")
-    @allure.title(
-        "TC-03: Добавление нескольких пицц в корзину из слайдера"
-    )
-    def test_add_several_pizzas_to_cart_from_slider(
-        self, main_page, cart_page
-    ):
+    @allure.title("TC-03: Добавление нескольких пицц в корзину из слайдера")
+    def test_add_several_pizzas_to_cart_from_slider(self, main_page, cart_page):
         main_page.open_page()
         main_page.wait_slider()
         main_page.add_first_pizza_to_cart()
@@ -47,9 +38,10 @@ class TestMainPage:
             cart_page.open_by_header_link()
 
         with allure.step("Проверить, что в корзине две позиции"):
-            cart_names = cart_page.get_item_names()
-            assert len(cart_names) == 2, \
-                f"В корзине {len(cart_names)} позиций, ожидалось 2"
+            cart_count = cart_page.get_items_count()
+        with allure.step("Сравнить количество в корзине"):
+            assert cart_count == 2, \
+                f"В корзине {cart_count} позиций, ожидалось 2"
 
     @allure.story("Главная страница")
     @allure.title("TC-04: Переключение слайдера вправо и влево")
@@ -82,12 +74,8 @@ class TestMainPage:
                 f"ожидались исходные {indexes_before}"
 
     @allure.story("Главная страница")
-    @allure.title(
-        "TC-05: Добавление пиццы в корзину после переключения слайдера"
-    )
-    def test_add_pizza_to_cart_after_slider_switch(
-        self, main_page, cart_page
-    ):
+    @allure.title("TC-05: Добавление пиццы в корзину после переключения слайдера")
+    def test_add_pizza_to_cart_after_slider_switch(self, main_page, cart_page):
         main_page.open_page()
         main_page.wait_slider()
         main_page.hover_first_active()
@@ -107,11 +95,9 @@ class TestMainPage:
         "TC-06: Переход на страницу подробностей пиццы "
         "по клику на изображение"
     )
-    def test_open_pizza_details_by_click_on_image(
-        self, main_page, product_page
-    ):
+    def test_open_pizza_details_by_click_on_image(self, main_page, product_page):
         main_page.open_page()
-        main_page.wait_slider()
+        main_page.wait_all_slider()
 
         pizza_name = main_page.get_pizza_name_in_card()
         main_page.click_first_pizza_image()
