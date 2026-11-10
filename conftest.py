@@ -6,5 +6,5 @@ logging.config.fileConfig(log_file_path)
 
 pytest_plugins = [
     "src.fixtures.system.browser",
-    "src.actions.base"
+    "src.fixtures.pages"
 ]
