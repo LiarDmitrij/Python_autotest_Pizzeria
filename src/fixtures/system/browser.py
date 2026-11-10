@@ -1,5 +1,6 @@
 import logging
 
+import allure
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -37,3 +38,10 @@ def selenium(request):
 
     except Exception as e:
         print(f"Ошибка при закрытии браузера (проигнорирована): {e}")
+
+@pytest.fixture
+def go_to_url(selenium):
+    @allure.step('Откртие страницы {url}')
+    def callback(url):
+        selenium.get(url)
+    return callback
