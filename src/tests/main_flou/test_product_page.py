@@ -16,7 +16,7 @@ CART_ITEM_OPTION = (By.CSS_SELECTOR, '.cart_item dl.variation dd.variation- p')
 
 @allure.epic("Pizzeria")
 @allure.feature("Основной флоу клиента")
-class TestPoductPage:
+class TestProductPage:
 
     @allure.story("Cтраница продукта")
     @allure.title("TC-07: Выбор дополнительной опции (сырный борт) на странице пиццы")

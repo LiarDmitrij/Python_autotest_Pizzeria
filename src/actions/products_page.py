@@ -19,6 +19,11 @@ PRICE_APPLY_BUTTON = (
 
 
 class ProductsPage(BasePage):
+    TITLE = (By.CSS_SELECTOR, 'h1.product_title')
+
+    @allure.step("Получить название пиццы")
+    def get_title(self):
+        return self.find(self.TITLE).text.strip()
 
     @allure.step("Открыть страницу категории {url}")
     def open_page(self, url):
