@@ -11,6 +11,8 @@ ADD_TO_CART_SINGLE = (By.CSS_SELECTOR, 'button.single_add_to_cart_button')
 
 class ProductPage(BasePage):
 
+    PIZZA_URL = 'https://pizzeria.skillbox.cc/product/пицца-4-в-1/'
+
     @allure.step("Открыть страницу пиццы")
     def open_page(self, url):
         self.open(url)
@@ -25,6 +27,10 @@ class ProductPage(BasePage):
     def select_board(self, board):
         Select(self.find(BOARD_SELECT)).select_by_visible_text(board)
         return self
+
+    @allure.step("Получить выбранный борт")
+    def get_selected_board(self):
+        return Select(self.find(BOARD_SELECT)).first_selected_option.text.strip()
 
     @allure.step("Добавить пиццу в корзину")
     def add_to_cart(self):
