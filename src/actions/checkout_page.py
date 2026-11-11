@@ -49,6 +49,8 @@ COUPON_DISCOUNT_ROW = (By.CSS_SELECTOR, 'tr.cart-discount .amount')
 COUPON_ROW = (By.CSS_SELECTOR, 'tr.cart-discount')
 REMOVE_COUPON_LINK = (By.CSS_SELECTOR, 'a.woocommerce-remove-coupon')
 
+COUPON_ERROR = (By.CSS_SELECTOR, '.woocommerce-error')
+
 
 class CheckoutPage(BasePage):
 
@@ -231,3 +233,15 @@ class CheckoutPage(BasePage):
         self.driver.get(href)
         self.find(CHECKOUT_FORM)
         return self
+
+    @allure.step("Дождаться сообщения об ошибке купона")
+    def wait_coupon_error(self):
+        return self.find(COUPON_ERROR)
+
+    @allure.step("Получить текст ошибки купона")
+    def get_coupon_error(self):
+        return self.find(COUPON_ERROR).text.strip()
+
+    @allure.step("Проверить, что строка скидки отсутствует")
+    def is_coupon_row_absent(self):
+        return len(self.driver.find_elements(*COUPON_ROW)) == 0
