@@ -49,10 +49,12 @@ def products_filtered(categories_page):
     categories_page.open_page(DESSERTS_URL).filter_by_max_price(135)
     return categories_page
 
+
 @pytest.fixture
 def menu_page(selenium):
     selenium.maximize_window()
     return MenuPage(selenium)
+
 
 @pytest.fixture
 def account_page(selenium):

@@ -62,7 +62,6 @@ class TestMainPage:
 
         main_page.wait_all_slider()
         main_page.hover_first_active()
-        
         main_page.click_prev()
         indexes_after_prev = main_page.wait_active_changed(
             indexes_after_next

@@ -44,7 +44,7 @@ class TestCategoriesPage:
     def test_checkout_requires_login(self, products_filtered, selenium):
         cart_page = CartPage(selenium)
         checkout_page = CheckoutPage(selenium)
-        
+
         products_filtered.add_first_to_cart()
 
         with allure.step("Перейти в корзину"):

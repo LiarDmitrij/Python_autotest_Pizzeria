@@ -38,6 +38,7 @@ CUSTOMER_ADDRESS = (By.CSS_SELECTOR, '.woocommerce-customer-details address')
 
 CHECKOUT_TOTAL = (By.CSS_SELECTOR, '#order_review .order-total .amount')
 
+
 class CheckoutPage(BasePage):
 
     @allure.step("Нажать кнопку «Перейти к оплате»")

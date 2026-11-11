@@ -4,15 +4,9 @@ from selenium.webdriver.common.by import By
 
 from src.actions.base import BasePage
 
-MENU_LINK = (
-    By.XPATH,
-    '//nav//a[contains(normalize-space(.), "Меню")]',
-)
+MENU_LINK = (By.XPATH, '//nav//a[contains(normalize-space(.), "Меню")]')
 SUB_MENU = (By.CSS_SELECTOR, 'ul.sub-menu')
-DESSERTS_SUBMENU_LINK = (By.XPATH,
-    ('//ul[contains(@class, "sub-menu")]//a[contains(normalize-space(.), '
-    '"Десерты")]')
-)
+DESSERTS_SUBMENU_LINK = (By.XPATH, ('//ul[contains(@class, "sub-menu")]//a[contains(normalize-space(.), "Десерты")]'))
 DESSERTS_TITLE = (By.CSS_SELECTOR, 'h1.entry-title')
 
 

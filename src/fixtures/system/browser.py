@@ -28,7 +28,7 @@ def selenium(request):
         driver = webdriver.Chrome(options=options)
     else:
         raise ValueError(f"Неподдерживаемый браузер: {browser_name}")
-    
+
     logging.info(f'Browser {browser_name} has been started')
     yield driver
 
@@ -38,6 +38,7 @@ def selenium(request):
 
     except Exception as e:
         print(f"Ошибка при закрытии браузера (проигнорирована): {e}")
+
 
 @pytest.fixture
 def go_to_url(selenium):

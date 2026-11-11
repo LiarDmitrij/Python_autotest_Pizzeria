@@ -6,8 +6,7 @@ import allure
 class TestProductPage:
 
     @allure.story("Страница продукта")
-    @allure.title("TC-07: Выбор дополнительной опции (сырный борт) на странице пиццы"
-    )
+    @allure.title("TC-07: Выбор дополнительной опции (сырный борт) на странице пиццы")
     def test_select_border_option(self, product_page):
         with allure.step("Открыть страницу подробностей пиццы"):
             product_page.open_page(product_page.PIZZA_URL)

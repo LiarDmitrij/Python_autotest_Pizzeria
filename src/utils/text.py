@@ -4,6 +4,7 @@ import re
 def clean(text):
     return re.sub(r'[«»""„“”]', '', text).strip()
 
+
 def parse_price(text):
     """Извлекает число из строки цены: '115,00₽' -> 115.0."""
     cleaned = (
