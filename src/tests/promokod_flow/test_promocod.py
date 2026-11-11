@@ -141,3 +141,69 @@ class TestPromoCode:
             assert total_after == total_before, \
                 f"Сумма изменилась с {total_before} на {total_after}, " \
                 f"хотя купон {promo_code} недействителен"
+
+    @allure.story("Промокоды")
+    @allure.title(
+        "TC-25: Применение промокода GIVEMEHALYAVA при недоступном "
+        "сервере валидации"
+    )
+    def test_apply_promo_with_blocked_server(
+        self, account_page, categories_page, cart_page,
+        checkout_page, go_to_url,
+    ):
+        promo_code = "GIVEMEHALYAVA"
+        username = "aa"
+        password = "qwert"
+
+        with allure.step("Предусловие: пользователь авторизован"):
+            go_to_url('https://pizzeria.skillbox.cc/')
+            account_page.open_by_header_link()
+            account_page.login(username, password)
+            account_page.is_logged_in()
+            account_page.open_by_header_link_auth()
+
+        with allure.step("Предусловие: товар в корзине"):
+            go_to_url('https://pizzeria.skillbox.cc/')
+            categories_page.open_page(
+                'https://pizzeria.skillbox.cc/'
+                'product-category/menu/deserts/'
+            ).filter_by_max_price(135)
+            categories_page.add_first_to_cart()
+
+        with allure.step("Перейти в корзину"):
+            cart_page.open_by_header_link()
+
+        with allure.step("Нажать кнопку «Перейти к оплате»"):
+            checkout_page.click_checkout()
+            checkout_page.wait_checkout_form()
+
+        with allure.step("Удалить ранее применённый купон, если есть"):
+            checkout_page.remove_coupon_if_present()
+
+        with allure.step("Запомнить итоговую сумму до применения купона"):
+            total_before_text = checkout_page.get_checkout_total()
+
+        with allure.step("Заблокировать запрос валидации купона"):
+            checkout_page.block_coupon_validation()
+
+        with allure.step("Открыть форму ввода купона"):
+            checkout_page.show_coupon_form()
+
+        with allure.step(f"Применить купон «{promo_code}»"):
+            checkout_page.apply_coupon(promo_code)
+
+        with allure.step("Дать сайту время обработать запрос"):
+            checkout_page.wait_coupon_attempt_finished()
+
+        with allure.step("Проверить, что скидка не применилась"):
+            # Строка скидки не должна появиться
+            assert checkout_page.is_coupon_row_absent(), \
+                "Строка скидки появилась, хотя сервер валидации недоступен"
+
+        with allure.step("Проверить, что сумма заказа НЕ изменилась"):
+            total_after_text = checkout_page.get_checkout_total()
+            total_before = parse_price(total_before_text)
+            total_after = parse_price(total_after_text)
+            assert total_after == total_before, \
+                f"Сумма изменилась с {total_before} на {total_after}, " \
+                f"хотя промокод не был валидирован"

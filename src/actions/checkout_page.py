@@ -1,3 +1,5 @@
+import time
+
 import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -245,3 +247,17 @@ class CheckoutPage(BasePage):
     @allure.step("Проверить, что строка скидки отсутствует")
     def is_coupon_row_absent(self):
         return len(self.driver.find_elements(*COUPON_ROW)) == 0
+
+    @allure.step("Заблокировать запрос валидации купона")
+    def block_coupon_validation(self):
+        self.driver.execute_cdp_cmd("Network.enable", {})
+        self.driver.execute_cdp_cmd(
+            "Network.setBlockedURLs",
+            {"urls": ["*wc-ajax=apply_coupon*"]}
+        )
+        return self
+
+    @allure.step("Дождаться завершения попытки применения купона")
+    def wait_coupon_attempt_finished(self, timeout=5):
+        time.sleep(timeout)
+        return self
