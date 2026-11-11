@@ -64,7 +64,7 @@ class CartPage(BasePage):
     def get_total(self):
         return self.find(ORDER_TOTAL).text.strip()
 
-    @allure.step("Дождаться пересчёта суммы")
+    @allure.step("Дождаться изменения суммы заказа")
     def wait_total_changed(self, previous, timeout=10):
         WebDriverWait(self.driver, timeout).until(
             lambda d: d.find_element(

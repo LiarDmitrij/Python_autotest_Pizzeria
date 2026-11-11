@@ -1,5 +1,6 @@
 import allure
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
 
 from src.actions.base import BasePage
 
@@ -37,6 +38,16 @@ ORDER_ITEM_NAME = (By.CSS_SELECTOR, '.woocommerce-table__product-name.product-na
 CUSTOMER_ADDRESS = (By.CSS_SELECTOR, '.woocommerce-customer-details address')
 
 CHECKOUT_TOTAL = (By.CSS_SELECTOR, '#order_review .order-total .amount')
+
+SHOW_COUPON_LINK = (By.CSS_SELECTOR, 'a.showcoupon')
+COUPON_FORM = (By.CSS_SELECTOR, 'form.checkout_coupon')
+COUPON_INPUT = (By.CSS_SELECTOR, 'form.checkout_coupon input#coupon_code')
+COUPON_APPLY_BUTTON = (By.CSS_SELECTOR, 'form.checkout_coupon button[name="apply_coupon"]')
+COUPON_MESSAGE = (By.CSS_SELECTOR, '.woocommerce-message, .woocommerce-error')
+COUPON_DISCOUNT_ROW = (By.CSS_SELECTOR, 'tr.cart-discount .amount')
+
+COUPON_ROW = (By.CSS_SELECTOR, 'tr.cart-discount')
+REMOVE_COUPON_LINK = (By.CSS_SELECTOR, 'a.woocommerce-remove-coupon')
 
 
 class CheckoutPage(BasePage):
@@ -174,3 +185,49 @@ class CheckoutPage(BasePage):
     @allure.step("Получить итоговую сумму заказа на странице оформления")
     def get_checkout_total(self):
         return self.find(CHECKOUT_TOTAL).text.strip()
+
+    @allure.step("Открыть форму ввода купона")
+    def show_coupon_form(self):
+        self.click(SHOW_COUPON_LINK)
+        self.find(COUPON_FORM)
+        return self
+
+    @allure.step("Применить купон «{code}»")
+    def apply_coupon(self, code):
+        self.find(COUPON_INPUT).clear()
+        self.find(COUPON_INPUT).send_keys(code)
+        self.click(COUPON_APPLY_BUTTON)
+        return self
+
+    @allure.step("Дождаться сообщения о применении купона")
+    def wait_coupon_message(self):
+        return self.find(COUPON_MESSAGE)
+
+    @allure.step("Получить текст сообщения о купоне")
+    def get_coupon_message(self):
+        return self.find(COUPON_MESSAGE).text.strip()
+
+    @allure.step("Дождаться изменения итоговой суммы")
+    def wait_total_changed(self, previous, timeout=10):
+        WebDriverWait(self.driver, timeout).until(
+            lambda d: d.find_element(
+                *CHECKOUT_TOTAL
+            ).text.strip() != previous,
+            message="Итоговая сумма не пересчиталась",
+        )
+        return self.get_checkout_total()
+
+    @allure.step("Получить сумму скидки по купону")
+    def get_coupon_discount(self):
+        return self.find(COUPON_DISCOUNT_ROW).text.strip()
+
+    @allure.step("Удалить применённый купон, если он есть")
+    def remove_coupon_if_present(self):
+        if not self.driver.find_elements(*COUPON_ROW):
+            return self
+
+        link = self.driver.find_element(*REMOVE_COUPON_LINK)
+        href = link.get_attribute("href")
+        self.driver.get(href)
+        self.find(CHECKOUT_FORM)
+        return self

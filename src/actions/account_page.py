@@ -20,6 +20,10 @@ ACCOUNT_NAV = (By.CSS_SELECTOR, 'nav.woocommerce-MyAccount-navigation')
 LOGOUT_LINK = (By.CSS_SELECTOR, 'a[href*="customer-logout"]')
 ACCOUNT_GREETING = (By.CSS_SELECTOR, '.woocommerce-MyAccount-content p')
 
+LOGIN_USERNAME = (By.CSS_SELECTOR, 'input#username')
+LOGIN_PASSWORD = (By.CSS_SELECTOR, 'input#password')
+LOGIN_SUBMIT = (By.CSS_SELECTOR, 'button[name="login"]')
+
 
 class AccountPage(BasePage):
 
@@ -90,4 +94,13 @@ class AccountPage(BasePage):
         self.fill_register_form(username, email, password)
         self.submit_register()
         self.wait_registration_complete()
+        return self
+
+    @allure.step("Войти под пользователем {username}")
+    def login(self, username, password):
+        self.find(LOGIN_USERNAME).clear()
+        self.find(LOGIN_USERNAME).send_keys(username)
+        self.find(LOGIN_PASSWORD).clear()
+        self.find(LOGIN_PASSWORD).send_keys(password)
+        self.click(LOGIN_SUBMIT)
         return self

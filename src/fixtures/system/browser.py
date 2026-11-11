@@ -19,6 +19,12 @@ def selenium(request):
     is_headless = request.config.getoption("--headless")
 
     options = Options()
+    prefs = {
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False,
+        "profile.password_manager_leak_detection": False,  # убираем сообщение об утечке пароля
+    }
+    options.add_experimental_option("prefs", prefs)
     options.page_load_strategy = "eager"
 
     if is_headless:
