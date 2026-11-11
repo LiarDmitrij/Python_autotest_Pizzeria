@@ -25,6 +25,18 @@ PAYMENT_COD = (By.CSS_SELECTOR, 'input#payment_method_cod')
 TERMS_CHECKBOX = (By.CSS_SELECTOR, 'input#terms')
 PLACE_ORDER_BUTTON = (By.CSS_SELECTOR, 'button#place_order')
 
+COD_DESCRIPTION = (By.CSS_SELECTOR, '.payment_box.payment_method_cod p')
+
+ORDER_SUCCESS_MESSAGE = (By.CSS_SELECTOR, '.woocommerce-notice.woocommerce-notice--success')
+ORDER_NUMBER = (By.CSS_SELECTOR, '.woocommerce-order-overview__order strong')
+ORDER_DATE_RECIEVED = (By.CSS_SELECTOR, '.woocommerce-order-overview__date strong')
+ORDER_EMAIL = (By.CSS_SELECTOR, '.woocommerce-order-overview__email strong')
+ORDER_TOTAL = (By.CSS_SELECTOR, '.woocommerce-order-overview__total strong')
+ORDER_PAYMENT = (By.CSS_SELECTOR, '.woocommerce-order-overview__payment-method strong')
+ORDER_ITEM_NAME = (By.CSS_SELECTOR, '.woocommerce-table__product-name.product-name a')
+CUSTOMER_ADDRESS = (By.CSS_SELECTOR, '.woocommerce-customer-details address')
+
+CHECKOUT_TOTAL = (By.CSS_SELECTOR, '#order_review .order-total .amount')
 
 class CheckoutPage(BasePage):
 
@@ -84,14 +96,9 @@ class CheckoutPage(BasePage):
         )
         return self
 
-    @allure.step("Выбрать оплату при доставке")
+    @allure.step("Выбрать: Оплата при доставке")
     def select_cod_payment(self):
         self.click(PAYMENT_COD)
-        return self
-
-    @allure.step("Принять условия доставки")
-    def accept_terms(self):
-        self.click(TERMS_CHECKBOX)
         return self
 
     @allure.step("Подтвердить заказ")
@@ -110,3 +117,59 @@ class CheckoutPage(BasePage):
             "postcode": self.find(BILLING_POSTCODE).get_attribute("value"),
             "phone": self.find(BILLING_PHONE).get_attribute("value"),
         }
+
+    @allure.step("Получить дату заказа")
+    def get_order_date(self):
+        return self.find(ORDER_DATE).get_attribute("value")
+
+    @allure.step("Дождаться описания оплаты при доставке")
+    def wait_cod_description(self):
+        return self.find(COD_DESCRIPTION)
+
+    @allure.step("Получить текст описания оплаты при доставке")
+    def get_cod_description(self):
+        return self.find(COD_DESCRIPTION).text.strip()
+
+    @allure.step("Принять условия доставки")
+    def accept_terms(self):
+        box = self.find(TERMS_CHECKBOX)
+        if not box.is_selected():
+            box.click()
+        return self
+
+    @allure.step("Дождаться страницы подтверждения заказа")
+    def wait_order_received(self):
+        self.find(ORDER_SUCCESS_MESSAGE)
+        return self
+
+    @allure.step("Получить сообщение об успешном заказе")
+    def get_success_message(self):
+        return self.find(ORDER_SUCCESS_MESSAGE).text.strip()
+
+    @allure.step("Получить дату заказа")
+    def get_order_date_received(self):
+        return self.find(ORDER_DATE_RECIEVED).text.strip()
+
+    @allure.step("Получить email заказа")
+    def get_order_email(self):
+        return self.find(ORDER_EMAIL).text.strip()
+
+    @allure.step("Получить сумму заказа")
+    def get_order_total(self):
+        return self.find(ORDER_TOTAL).text.strip()
+
+    @allure.step("Получить метод оплаты")
+    def get_order_payment(self):
+        return self.find(ORDER_PAYMENT).text.strip()
+
+    @allure.step("Получить название заказанного товара")
+    def get_order_item_name(self):
+        return self.find(ORDER_ITEM_NAME).text.strip()
+
+    @allure.step("Получить адрес доставки")
+    def get_customer_address(self):
+        return self.find(CUSTOMER_ADDRESS).text.strip()
+
+    @allure.step("Получить итоговую сумму заказа на странице оформления")
+    def get_checkout_total(self):
+        return self.find(CHECKOUT_TOTAL).text.strip()
