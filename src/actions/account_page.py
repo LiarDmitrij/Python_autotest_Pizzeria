@@ -23,7 +23,7 @@ ACCOUNT_GREETING = (By.CSS_SELECTOR, '.woocommerce-MyAccount-content p')
 
 class AccountPage(BasePage):
 
-    @allure.step("Перейти во вкладку «Мой аккаунт» без авторизации")
+    @allure.step("Перейти во вкладку «Мой аккаунт» не авторизованным")
     def open_by_header_link(self):
         self.click(ACCOUNT_LINK)
         self.find(LOGIN_FORM)
