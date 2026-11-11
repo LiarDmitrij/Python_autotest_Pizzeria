@@ -13,6 +13,7 @@ allure_results/
 allure-report/
 
 # Логи
+logs/
 log.txt
 *.log
 
