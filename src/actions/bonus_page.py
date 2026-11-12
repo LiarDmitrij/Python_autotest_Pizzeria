@@ -52,7 +52,7 @@ class BonusPage(BasePage):
     @allure.step("Проверить, что alert отсутствует")
     def is_alert_absent(self):
         try:
-            self.driver.switch_to.alert
+            _ = self.driver.switch_to.alert
             return False
         except Exception:
             return True

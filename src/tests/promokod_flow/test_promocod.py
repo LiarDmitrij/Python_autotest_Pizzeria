@@ -3,7 +3,6 @@ import random
 import string
 
 import allure
-
 from src.utils.text import parse_price
 
 
