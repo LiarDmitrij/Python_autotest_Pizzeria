@@ -1,6 +1,7 @@
 import pytest
 
 from src.actions.account_page import AccountPage
+from src.actions.bonus_page import BonusPage
 from src.actions.cart_page import CartPage
 from src.actions.categories_page import CategoriesPage
 from src.actions.checkout_page import CheckoutPage
@@ -60,3 +61,8 @@ def menu_page(selenium):
 def account_page(selenium):
     selenium.maximize_window()
     return AccountPage(selenium)
+
+@pytest.fixture
+def bonus_page(selenium):
+    selenium.maximize_window()
+    return BonusPage(selenium)
