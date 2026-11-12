@@ -62,6 +62,7 @@ def account_page(selenium):
     selenium.maximize_window()
     return AccountPage(selenium)
 
+
 @pytest.fixture
 def bonus_page(selenium):
     selenium.maximize_window()

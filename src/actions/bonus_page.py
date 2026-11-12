@@ -48,3 +48,23 @@ class BonusPage(BasePage):
     @allure.step("Получить текст ошибки валидации")
     def get_validation_error(self):
         return self.find(BONUS_CONTENT).text.strip()
+
+    @allure.step("Проверить, что alert отсутствует")
+    def is_alert_absent(self):
+        try:
+            self.driver.switch_to.alert
+            return False
+        except Exception:
+            return True
+
+    @allure.step("Получить цвет рамки поля «Имя»")
+    def get_name_border_color(self):
+        return self.find(NAME_INPUT).value_of_css_property(
+            "border-color"
+        )
+
+    @allure.step("Получить цвет рамки поля «Телефон»")
+    def get_phone_border_color(self):
+        return self.find(PHONE_INPUT).value_of_css_property(
+            "border-color"
+        )
